@@ -12,12 +12,12 @@ export async function Header() {
       <Link href="/" className="flex items-center" prefetch={false}>
         <Image
           width={200}
-          src={"/logo.svg"}
+          src={"/favicon.ico"}
           height={200}
           alt="Evenight Logo"
           className="h-6 w-6 text-primary"
         />
-        <span className="sr-only">Acme Inc</span>
+        <span className="ml-2">EveNight</span>
       </Link>
       <div className="flex items-center gap-4">
         {session ? (
