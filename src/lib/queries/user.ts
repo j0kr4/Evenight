@@ -62,7 +62,7 @@ export const authenticateUser: LoginType = async (email, password) => {
     throw new Error("Invalid email or password");
   }
 
-  const [hash, salt] = hashPassword(password, user.passwordSalt);
+  const [hash, salt] = hashPassword(password, user.passwordSalt as string);
   console.log("hash", hash);
   if (hash !== user!.passwordHash) {
     throw new Error("Invalid email or password");

@@ -3,6 +3,7 @@ import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import { Header } from "@/components/component/header";
 
 const inter = Roboto({ weight: "400", subsets: ["latin"] });
 
@@ -21,7 +22,10 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <SessionProvider session={session}>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <Header />
+          {children}
+        </body>
       </SessionProvider>
     </html>
   );
