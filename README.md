@@ -4,7 +4,60 @@
 # shadcn
 
 
+# route Back 
+Enregistrement d'un utilisateur:
+POST /api/users
+Corps de la requête: { name: string, email: string, password: string }
 
+Connexion de l'utilisateur:
+POST /api/auth/login
+Corps de la requête: { email: string, password: string }
+
+Déconnexion de l'utilisateur:
+POST /api/auth/logout
+
+Récupération des informations de l'utilisateur:
+GET /api/users/me
+Headers: { Authorization: Bearer <token> }
+Routes Soirée (Party)
+
+Création d'une nouvelle soirée:
+POST /api/parties
+Corps de la requête: { name: string, cityId: number, typeId: number, date: string, time: string, availableSeats: number, isPaid: boolean }
+Headers: { Authorization: Bearer <token> }
+
+Récupération des soirées disponibles (avec filtres):
+GET /api/parties
+Paramètres de la requête: { city?: string, type?: string, availableSeats?: number, isPaid?: boolean, date?: string }
+
+Récupération des détails d'une soirée:
+GET /api/parties/[id]
+
+Mise à jour d'une soirée:
+PUT /api/parties/[id]
+Corps de la requête: { name?: string, cityId?: number, typeId?: number, date?: string, time?: string, availableSeats?: number, isPaid?: boolean }
+Headers: { Authorization: Bearer <token> }
+
+Suppression d'une soirée:
+DELETE /api/parties/[id]
+Headers: { Authorization: Bearer <token> }
+Routes Message (Message)
+
+Envoyer un message:
+POST /api/messages
+Corps de la requête: { partyId: number, content: string }
+Headers: { Authorization: Bearer <token> }
+
+Récupérer les messages d'une soirée:
+GET /api/messages
+Paramètres de la requête: { partyId: number }
+Routes Ville (City) et Type de Soirée (PartyType)
+
+Récupérer la liste des villes:
+GET /api/cities
+
+Récupérer la liste des types de soirées:
+GET /api/partytypes
 
 
 
