@@ -1,7 +1,7 @@
-Prisma 
-Next auth 
-React hook form 
-shadcn
+# Prisma,
+# Next auth, 
+# React hook form, 
+# shadcn,
 
 
 
