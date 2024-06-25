@@ -1,10 +1,11 @@
-import prisma from "@/../prisma/script";
+import { PrismaClient } from "@prisma/client";
 import { LoginType, ReadUser, UserRegisterDto } from "../type/user";
 import hashPassword from "../utils/hashPassword";
 
 import jsonwebtoken from "jsonwebtoken";
 import config from "@/../config";
 
+const prisma = new PrismaClient();
 export const register = async (userDto: UserRegisterDto) => {
   const { password, ...otherFields } = userDto;
   const userExists = await prisma.user.findUnique({

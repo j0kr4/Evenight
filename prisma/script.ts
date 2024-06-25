@@ -15,19 +15,20 @@ async function main() {
         email: faker.internet.email(),
         emailVerified: faker.date.past(),
         passwordHash: faker.internet.password(),
-        passwordSalt: faker.datatype.string(16),
+        passwordSalt: faker.internet.password(),
         image: faker.image.avatar(),
         city: faker.location.city(),
-        region: faker.address.state(),
-        age: faker.datatype.number({ min: 18, max: 60 }),
+        region: faker.location.state(),
+        age: faker.number.int({ min: 18, max: 60 }),
         interests: faker.lorem.words(3).split(" "),
-        rating: faker.datatype.float({ min: 0, max: 5, precision: 0.1 }),
+        rating: faker.number.float({ min: 0, max: 5, multipleOf: 0.1 }),
         role: "USER",
       },
     });
   }
 
   // Generate Parties
+
   const users = await prisma.user.findMany();
   for (let i = 0; i < 5; i++) {
     await prisma.party.create({
@@ -42,7 +43,7 @@ async function main() {
         date: faker.date.future(),
         time: faker.date.future(),
         place: faker.number.int(),
-        availableSeats: faker.datatype.number({ min: 1, max: 20 }),
+        availableSeats: faker.number.int({ min: 1, max: 20 }),
         isPaid: faker.datatype.boolean(),
         price: faker.datatype.float({ min: 0, max: 100, precision: 0.01 }),
         organizerId: faker.helpers.arrayElement(users).id,
@@ -59,7 +60,7 @@ async function main() {
       for (let i = 0; i < 5; i++) {
         await prisma.boardGame.create({
           data: {
-            name: faker.random.words(2),
+            name: faker.helpers.arrayElement(["Monopoly", "Uno", "Loup Garou"]),
             partyId: party.id,
           },
         });
@@ -68,7 +69,13 @@ async function main() {
       for (let i = 0; i < 5; i++) {
         await prisma.videoGame.create({
           data: {
-            name: faker.random.words(2),
+            name: faker.helpers.arrayElement([
+              "Call of Duty",
+              "EA Sports FC",
+              "Minecraft",
+              "Tetris",
+              "Grand Theft Auto V",
+            ]),
             platform: faker.helpers.arrayElement(["PC", "Console"]),
             partyId: party.id,
           },
@@ -83,7 +90,7 @@ async function main() {
       await prisma.comment.create({
         data: {
           content: faker.lorem.sentences(2),
-          rating: faker.datatype.float({ min: 0, max: 5, precision: 0.1 }),
+          rating: faker.number.float({ min: 0, max: 5, multipleOf: 0.1 }),
           userId: faker.helpers.arrayElement(users).id,
           partyId: party.id,
         },

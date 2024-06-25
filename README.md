@@ -1,10 +1,13 @@
 # Prisma
+
 # Next auth
+
 # React hook form,
+
 # shadcn
 
+# route Back
 
-# route Back 
 Enregistrement d'un utilisateur:
 POST /api/users
 Corps de la requête: { name: string, email: string, password: string }
@@ -58,8 +61,6 @@ GET /api/cities
 
 Récupérer la liste des types de soirées:
 GET /api/partytypes
-
-
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

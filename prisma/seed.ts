@@ -1,13 +1,21 @@
 import { PrismaClient } from "@prisma/client";
 import { faker } from "@faker-js/faker";
 import dotenv from "dotenv";
-import { match } from "assert";
 
 dotenv.config();
 
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.$transaction([
+    prisma.comment.deleteMany(),
+    prisma.message.deleteMany(),
+    prisma.boardGame.deleteMany(),
+    prisma.videoGame.deleteMany(),
+    prisma.party.deleteMany(),
+    prisma.user.deleteMany(),
+  ]);
+
   // Generate Users
   for (let i = 0; i < 5; i++) {
     await prisma.user.create({
