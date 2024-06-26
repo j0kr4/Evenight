@@ -29,6 +29,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import cover from "@/../public/coverEvent.jpg";
+import Date from "@/components/date";
 
 export function CardParty() {
   const fetchParty = async () => {
@@ -46,7 +47,7 @@ export function CardParty() {
   }
 
   return (
-    <>
+    <div className="grid grid-cols-2">
       {data.map((party: Party) => (
         <Card key={party.id} className="w-full max-w-md m-4">
           <Link href={`/party/${party.id}`} key={party.id} className="z-0">
@@ -65,11 +66,13 @@ export function CardParty() {
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="h-5 w-5" />
-                <span></span>
+                <span>{party.adress.city}</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Calendar className="h-5 w-5" />
-                <span>{party.date.toString()}</span>
+                <span>
+                  <Date dateString={party.date} />
+                </span>
               </div>
             </CardHeader>
           </Link>
@@ -177,7 +180,7 @@ export function CardParty() {
           </CardContent>
         </Card>
       ))}
-    </>
+    </div>
   );
 }
 export default CardParty;
