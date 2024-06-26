@@ -2,15 +2,8 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/component/header";
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+
 const inter = Roboto({ weight: "400", subsets: ["latin"] });
-const queryClient = new QueryClient();
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +18,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <QueryClientProvider client={queryClient}>
-          <Header />
-          {children}
-        </QueryClientProvider>
+        <Header />
+        {children}
       </body>
     </html>
   );
