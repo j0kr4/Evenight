@@ -61,6 +61,7 @@ model Party {
   comments        Comment[]
   bringSnacks     Boolean     @default(false)
   bringDrinks     Boolean     @default(false)
+  bringDrinksAlcool Boolean   @default(false)
   partyParticipants PartyParticipant[]
 
 

@@ -39,6 +39,7 @@ CREATE TABLE "Party" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "bringSnacks" BOOLEAN NOT NULL DEFAULT false,
     "bringDrinks" BOOLEAN NOT NULL DEFAULT false,
+    "bringDrinksAlcool" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Party_pkey" PRIMARY KEY ("id")
 );
