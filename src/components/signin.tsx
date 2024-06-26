@@ -21,7 +21,6 @@ export function SignIn() {
         <form
           action={async (formData) => {
             "use server";
-
             await signIn("credentials", {
               email: formData.get("email"),
               password: formData.get("password"),

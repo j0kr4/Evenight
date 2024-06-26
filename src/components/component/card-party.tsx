@@ -47,9 +47,9 @@ export function CardParty() {
   }
 
   return (
-    <div className="grid grid-cols-2">
+    <div className="grid grid-cols-2 gap-4">
       {data.map((party: Party) => (
-        <Card key={party.id} className="w-full max-w-md m-4">
+        <Card key={party.id} className="w-full max-w-md ">
           <Link href={`/party/${party.id}`} key={party.id} className="z-0">
             <Image width={450} height={200} src={cover} alt="Party" />
             <CardHeader className="flex flex-col gap-2">

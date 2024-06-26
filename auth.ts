@@ -11,12 +11,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: {
           label: "Email",
           type: "text",
-          placeholder: "your-cool-email",
         },
         password: {
           label: "Password",
           type: "password",
-          placeholder: "your-awesome-password",
         },
       },
 
