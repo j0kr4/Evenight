@@ -12,16 +12,13 @@ model User {
   name          String?
   email         String?         @unique
   emailVerified DateTime?
+  adressId      String
   passwordHash  String?
   passwordSalt  String?
   image         String?
-  city          String?
-  region        String?
   age           Int?
   interests     String[]
   rating        Float            @default(0.0)
-  comments      Comment[]
-  messages      Message[]
   parties       Party[]          @relation("UserParties")
   organizedParties Party[]       @relation("OrganizedParties")
   accounts      Account[]
@@ -29,20 +26,27 @@ model User {
   role          String           @default("USER")
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
-
+  fromComments Comment[] @relation("CommentUserFrom")
+  toComments   Comment[] @relation("CommentUserTo")
+  adress        Adress @relation(fields: [adressId], references: [id])
   @@index([email])
-  @@index([city])
-  @@index([region])
   @@index([createdAt])
+}
+
+enum PartyType {
+  LAN
+  PARTY
+  BOARD_GAME
 }
 
 model Party {
   id              String      @id @default(cuid())
   name            String
-  city            String
-  type            String
+  type            PartyType
   date            DateTime   
   time            DateTime
+  adressId        String
+  description     String
   availableSeats  Int
   isPaid          Boolean
   place           Int
@@ -54,14 +58,13 @@ model Party {
   updatedAt       DateTime    @updatedAt
   organizer       User        @relation(fields: [organizerId], references: [id], name: "OrganizedParties")
   participants    User[]      @relation("UserParties")
+  adress        Adress @relation(fields: [adressId], references: [id])
   comments        Comment[]
-  messages        Message[]
   bringSnacks     Boolean     @default(false)
   bringDrinks     Boolean     @default(false)
   bringDrinksAlcool     Boolean     @default(false)
 
 
-  @@index([city])
   @@index([type])
   @@index([date])
   @@index([createdAt])
@@ -81,31 +84,38 @@ model VideoGame {
   party     Party    @relation(fields: [partyId], references: [id])
 }
 
+model Adress {
+  id        String   @id @default(cuid())
+  street    String
+  city      String
+  region    String
+  country   String
+  zipCode   String
+  partyId   String
+  userId    String
+  party     Party[]
+  user      User[]
+  @@index([city])
+  @@index([region])
+  @@index([country])
+  @@index([zipCode])
+  @@index([partyId])
+}
+
 model Comment {
   id        String    @id @default(cuid())
   content   String
   rating    Float
-  userId    String
+  fromUserId  String
+  toUserId    String
   partyId   String
   createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
+  userFrom    User      @relation(name: "CommentUserFrom", fields: [fromUserId], references: [id])
+  userTo      User      @relation(name: "CommentUserTo", fields: [toUserId], references: [id])
   party     Party     @relation(fields: [partyId], references: [id])
 
-  @@index([userId])
-  @@index([partyId])
-  @@index([createdAt])
-}
-
-model Message {
-  id        String    @id @default(cuid())
-  content   String
-  userId    String
-  partyId   String
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
-  party     Party     @relation(fields: [partyId], references: [id])
-
-  @@index([userId])
+  @@index([fromUserId])
+  @@index([toUserId])
   @@index([partyId])
   @@index([createdAt])
 }
