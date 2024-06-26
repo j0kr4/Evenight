@@ -6,6 +6,7 @@ import SignOut from "../signout";
 
 export async function Header() {
   const session = await auth();
+  console.log(session);
 
   return (
     <header className="flex items-center justify-between h-16 px-4 bg-white shadow-sm sm:px-6 lg:px-8">
