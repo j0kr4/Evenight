@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
-import { SessionProvider } from "next-auth/react";
-import { Session } from "next-auth";
 import { Header } from "@/components/component/header";
 
 const inter = Roboto({ weight: "400", subsets: ["latin"] });
@@ -14,19 +12,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  session,
 }: Readonly<{
   children: React.ReactNode;
-  session: Session | null;
 }>) {
   return (
     <html lang="fr">
-      <SessionProvider session={session}>
-        <body className={inter.className}>
-          <Header />
-          {children}
-        </body>
-      </SessionProvider>
+      <body className={inter.className}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
