@@ -1,8 +1,9 @@
 # Prisma
 
 # Next auth
-npx auth secret
-openssl rand -base64 33
+- npx auth secret
+- openssl rand -base64 33
+  
 # React hook form,
 
 # shadcn
