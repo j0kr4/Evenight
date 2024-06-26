@@ -55,28 +55,28 @@ export async function CardParty() {
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <CalendarIcon className="h-5 w-5" />
-              <span>{party.date}</span>
+              <span>{party.date.toString() + "à" + party.time} </span>
             </div>
           </CardHeader>
           <CardContent className="grid gap-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <UsersIcon className="h-5 w-5" />
-                <span>20 available seats</span>
+                <span>{party.availableSeats} places disponibles</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <TicketIcon className="h-5 w-5" />
-                <span>Free event</span>
+                <span>{party.isPaid ? "Payant" : "Gratuit"}</span>
               </div>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <UserIcon className="h-5 w-5" />
-              <span>Hosted by Jane Doe</span>
+              <span>Organisé par {party?.organizer.name} </span>
             </div>
             <Collapsible>
               <CollapsibleTrigger className="font-semibold flex items-center gap-1 [&[data-state=open]>svg]:-rotate-90">
                 <GamepadIcon className="h-5 w-5" />
-                Games
+                {party.type}
                 <ChevronRightIcon className="h-5 w-5 transition-all" />
               </CollapsibleTrigger>
               <CollapsibleContent>
