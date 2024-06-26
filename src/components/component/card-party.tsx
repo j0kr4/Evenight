@@ -9,6 +9,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import axios from "axios";
 import { Party } from "@prisma/client";
 import { Calendar, MapPin, Ticket, User, User2 } from "lucide-react";
+import Link from "next/link";
 
 export async function CardParty() {
   const parties = await axios
@@ -21,41 +22,45 @@ export async function CardParty() {
     <>
       {parties.map((party: Party) => (
         <Card key={party.id} className="w-full max-w-md m-4">
-          <CardHeader className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-2xl font-bold">{party.name}</CardTitle>
-              <Badge
-                variant="outline"
-                className="rounded-full px-3 py-1 text-sm font-medium"
-              >
-                {party.isPaid ? "Payant" : "Gratuit"}
-              </Badge>
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <MapPin className="h-5 w-5" />
-              <span>{party.city}</span>
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Calendar className="h-5 w-5" />
-              <span>{party.date}</span>
-            </div>
-          </CardHeader>
+          <Link href={`/party/${party.id}`} key={party.id} className="z-0">
+            <CardHeader className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-2xl font-bold">
+                  {party.name}
+                </CardTitle>
+                <Badge
+                  variant="outline"
+                  className="rounded-full px-3 py-1 text-sm font-medium"
+                >
+                  {party.isPaid ? "Payant" : "Gratuit"}
+                </Badge>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <MapPin className="h-5 w-5" />
+                <span></span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Calendar className="h-5 w-5" />
+                <span>{party.date.toString()}</span>
+              </div>
+            </CardHeader>
+          </Link>
           <CardContent className="grid gap-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <User2 className="h-5 w-5" />
-                <span>20 available seats</span>
+                <span>{party.availableSeats} places disponibles</span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Ticket className="h-5 w-5" />
-                <span>Free event</span>
+                <span> {party.isPaid ? "Payant" : "Gratuit"}</span>
               </div>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <User className="h-5 w-5" />
-              <span>Hosted by Jane Doe</span>
+              <span>Organiser par {party.organizer.name} </span>
             </div>
-            <Collapsible>
+            <Collapsible className="z-50">
               <CollapsibleTrigger className="font-semibold flex items-center gap-1 [&[data-state=open]>svg]:-rotate-90">
                 <GamepadIcon className="h-5 w-5" />
                 {party.type}
@@ -74,7 +79,7 @@ export async function CardParty() {
                 </div>
               </CollapsibleContent>
             </Collapsible>
-            <Collapsible>
+            <Collapsible className="z-10">
               <CollapsibleTrigger className="font-semibold flex items-center gap-1 [&[data-state=open]>svg]:-rotate-90">
                 <UsersIcon className="h-5 w-5" />
                 Attendees
@@ -99,7 +104,7 @@ export async function CardParty() {
                 </div>
               </CollapsibleContent>
             </Collapsible>
-            <Collapsible>
+            <Collapsible className="z-10">
               <CollapsibleTrigger className="font-semibold flex items-center gap-1 [&[data-state=open]>svg]:-rotate-90">
                 <MessageCircleIcon className="h-5 w-5" />
                 Comments
