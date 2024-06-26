@@ -91,15 +91,13 @@ model Adress {
   region    String
   country   String
   zipCode   String
-  partyId   String
-  userId    String
+
   party     Party[]
   user      User[]
   @@index([city])
   @@index([region])
   @@index([country])
   @@index([zipCode])
-  @@index([partyId])
 }
 
 model Comment {
