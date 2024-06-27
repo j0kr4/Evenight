@@ -38,7 +38,6 @@ export function SignIn() {
               <div className="text-xs">
                 {" Vous n'avez pas de compte ? "}
                 <Link href={"/sign-up"} className="uppercase  hover:underline">
-                  {" "}
                   Inscription
                 </Link>
               </div>

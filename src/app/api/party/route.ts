@@ -22,16 +22,18 @@ const VideoGameSchema = z.object({
 const PartySchema = z.object({
   name: z.string(),
   type: z.nativeEnum(PartyType),
-  date: z.string()
-  .refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid date format",
-  })
-  .transform((val) => new Date(val)),
-  time: z.string()
-  .refine((val) => !isNaN(Date.parse(val)), {
-    message: "Invalid date format",
-  })
-  .transform((val) => new Date(val)),
+  date: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid date format",
+    })
+    .transform((val) => new Date(val)),
+  time: z
+    .string()
+    .refine((val) => !isNaN(Date.parse(val)), {
+      message: "Invalid date format",
+    })
+    .transform((val) => new Date(val)),
   description: z.string(),
   availableSeats: z.number().int(),
   isPaid: z.boolean(),
@@ -63,31 +65,37 @@ export async function GET() {
   return Response.json(data);
 }
 
-export async function POST(request) {
+export async function POST(request: any) {
   try {
     let validatedData = PartySchema.parse(await request.json());
 
     // Préparer l'objet data pour inclure les relations
     const dataForPrisma = {
       ...validatedData,
-      adress: validatedData.adress ? {
-        create: {
-          ...validatedData.adress,
-        },
-      } : undefined,
-      boardGames: validatedData.boardGames ? {
-        create: validatedData.boardGames.map(bg => ({
-          name: bg.name,
-          // Assurez-vous que les autres champs nécessaires sont inclus ici
-        })),
-      } : undefined,
-      videoGames: validatedData.videoGames ? {
-        create: validatedData.videoGames.map(vg => ({
-          name: vg.name,
-          platform: vg.platform,
-          // Assurez-vous que les autres champs nécessaires sont inclus ici
-        })),
-      } : undefined,
+      adress: validatedData.adress
+        ? {
+            create: {
+              ...validatedData.adress,
+            },
+          }
+        : undefined,
+      boardGames: validatedData.boardGames
+        ? {
+            create: validatedData.boardGames.map((bg) => ({
+              name: bg.name,
+              // Assurez-vous que les autres champs nécessaires sont inclus ici
+            })),
+          }
+        : undefined,
+      videoGames: validatedData.videoGames
+        ? {
+            create: validatedData.videoGames.map((vg) => ({
+              name: vg.name,
+              platform: vg.platform,
+              // Assurez-vous que les autres champs nécessaires sont inclus ici
+            })),
+          }
+        : undefined,
       organizer: {
         connect: {
           id: validatedData.organizer,
@@ -102,15 +110,15 @@ export async function POST(request) {
     return new Response(JSON.stringify(createdParty), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
   } catch (error) {
-    console.error('Error creating party:', error);
-    return new Response(JSON.stringify({ error: 'Error creating party' }), {
+    console.error("Error creating party:", error);
+    return new Response(JSON.stringify({ error: "Error creating party" }), {
       status: 400,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
   }
