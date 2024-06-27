@@ -36,3 +36,34 @@ export async function POST(request: any) {
     });
   }
 }
+
+
+export async function GET(request: any) {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        partyId: request.params.id  ,
+      },
+      include: {
+        userFrom: true, 
+        userTo: true,   
+        party: true,   
+    });
+
+    // Répondre avec les commentaires trouvés
+    return new Response(JSON.stringify(comments), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    return new Response(JSON.stringify({ error: "Error fetching comments" }), {
+      status: 400,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+}
