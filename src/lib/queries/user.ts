@@ -6,6 +6,7 @@ import jsonwebtoken from "jsonwebtoken";
 import config from "@/../config";
 
 const prisma = new PrismaClient();
+
 export const register = async (userDto: UserRegisterDto) => {
   const { password, ...otherFields } = userDto;
   const userExists = await prisma.user.findUnique({

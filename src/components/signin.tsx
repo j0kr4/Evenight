@@ -21,7 +21,6 @@ export function SignIn() {
         <form
           action={async (formData) => {
             "use server";
-
             await signIn("credentials", {
               email: formData.get("email"),
               password: formData.get("password"),
@@ -39,7 +38,6 @@ export function SignIn() {
               <div className="text-xs">
                 {" Vous n'avez pas de compte ? "}
                 <Link href={"/sign-up"} className="uppercase  hover:underline">
-                  {" "}
                   Inscription
                 </Link>
               </div>

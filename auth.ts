@@ -31,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         )) as User;
 
         if (!user) {
-          throw new Error("Invalid email or password");
+          return "Invalid email or password";
         }
 
         const { id, email, name } =

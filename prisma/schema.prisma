@@ -12,10 +12,10 @@ model User {
   name          String?
   email         String?         @unique
   emailVerified DateTime?
-  adressId      String
   passwordHash  String?
   passwordSalt  String?
   image         String?
+  adressId      String?
   age           Int?
   interests     String[]
   rating        Float            @default(0.0)
@@ -28,7 +28,7 @@ model User {
   updatedAt     DateTime         @updatedAt
   fromComments Comment[] @relation("CommentUserFrom")
   toComments   Comment[] @relation("CommentUserTo")
-  adress        Adress @relation(fields: [adressId], references: [id])
+  adress        Adress?  @relation(fields: [adressId], references: [id])
   @@index([email])
   @@index([createdAt])
 }
