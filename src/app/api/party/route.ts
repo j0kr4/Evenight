@@ -60,7 +60,12 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   const data = await prisma.party.findMany({
-    include: { organizer: true, partyParticipants: true, adress: true },
+    include: {
+      organizer: true,
+      partyParticipants: true,
+      adress: true,
+      comments: true,
+    },
   });
   return Response.json(data);
 }

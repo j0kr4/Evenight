@@ -1,5 +1,5 @@
 "use client";
-import { CardParty } from "@/components/component/card-party";
+import { CardParty } from "@/components/component/cardparty";
 import { Button } from "@/components/ui/button";
 
 import { Plus } from "lucide-react";
