@@ -42,12 +42,13 @@ export async function GET(request: any) {
   try {
     const comments = await prisma.comment.findMany({
       where: {
-        partyId: request.params.id  ,
+        partyId: request.params.id,
       },
       include: {
-        userFrom: true, 
-        userTo: true,   
-        party: true,   
+        userFrom: true,
+        userTo: true,
+        party: true,
+      }
     });
 
     // Répondre avec les commentaires trouvés
