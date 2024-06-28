@@ -2,25 +2,19 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { UsersController } from "./src/lib/controllers/UsersController";
 import { User } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-
-const prisma = new PrismaClient();
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
         email: {
-          label: "Email",
+          label: "Email:",
           type: "text",
           placeholder: "your-cool-email",
         },
         password: {
-          label: "Password",
+          label: "Password:",
           type: "password",
           placeholder: "your-awesome-password",
         },
@@ -37,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         )) as User;
 
         if (!user) {
-          return "Invalid email or password";
+          throw new Error("Invalid email or password");
         }
 
         const { id, email, name } =
