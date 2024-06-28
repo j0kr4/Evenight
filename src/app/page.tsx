@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { Hero } from "@/components/component/hero";
 import { useRouter } from "next/navigation";
-import FilterSearch from "@/components/component/filterSearch";
+import FilterSearch from "@/components/component/filtersearch";
 
 export default function Home() {
   const router = useRouter();

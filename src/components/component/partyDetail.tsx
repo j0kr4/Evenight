@@ -2,10 +2,18 @@
 import Link from "next/link";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { CommentForm } from "./CommentForm";
-import { LocateIcon, UserIcon } from "lucide-react";
+import {
+  CircuitBoard,
+  GamepadIcon,
+  LocateIcon,
+  PartyPopper,
+  UserIcon,
+} from "lucide-react";
 import Loader from "./loader";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { Badge } from "../ui/badge";
+import { PartyType } from "@prisma/client";
 
 export async function PartyDetail({ id, user }: { id: string; user: any }) {
   const fetchParty = async () => {
@@ -27,18 +35,26 @@ export async function PartyDetail({ id, user }: { id: string; user: any }) {
         <div className="grid gap-2">
           <h1 className="text-2xl font-bold">{data.name}</h1>
           <div className="flex items-center gap-4">
-            <div className="bg-muted rounded-full px-3 py-1 text-sm font-medium">
+            <Badge
+              variant="secondary"
+              className="rounded-full px-3 gap-2 py-1 text-sm font-medium"
+            >
+              {data.type == PartyType["LAN"] ? (
+                <GamepadIcon className="h-5 w-5" />
+              ) : data.type == PartyType["BOARD_GAME"] ? (
+                <CircuitBoard className="h-5 w-5" />
+              ) : (
+                <PartyPopper className="h-5 w-5" />
+              )}
               {data.type}
-            </div>
+            </Badge>
             <div className="text-muted-foreground">
               {new Date(data.date).toLocaleDateString()} -{" "}
               {new Date(data.time).toLocaleTimeString()}
             </div>
           </div>
         </div>
-        <div className="bg-muted rounded-full px-3 py-1 text-sm font-medium">
-          {data.isPaid ? "Payant" : "Gratuit"}
-        </div>
+        <Badge variant={"outline"}>{data.isPaid ? "Payant" : "Gratuit"}</Badge>
       </header>
       <section className="grid md:grid-cols-2 gap-8 mt-8">
         <div className="grid gap-4">
@@ -63,10 +79,10 @@ export async function PartyDetail({ id, user }: { id: string; user: any }) {
           <div className="prose max-w-none">
             <h2>Au programme</h2>
             <ul>
-              {data?.boardGames?.map((game) => (
+              {data?.boardGames?.map((game: any) => (
                 <li key={game.id}>{game.name}</li>
               ))}
-              {data?.videoGames?.map((game) => (
+              {data?.videoGames?.map((game: any) => (
                 <li key={game.id}>
                   {game.name} ({game.platform})
                 </li>
@@ -103,7 +119,7 @@ export async function PartyDetail({ id, user }: { id: string; user: any }) {
         <h2 className="text-xl font-bold mb-4">Commentaires</h2>
         {user && <CommentForm />}
         <div className="grid gap-6 mt-12  border-t py-12">
-          {data?.comments?.map((comment) => (
+          {data?.comments?.map((comment: any) => (
             <div className="flex items-start gap-4" key={comment.id}>
               <Avatar className="border w-10 h-10">
                 <AvatarImage src="/placeholder-user.jpg" />

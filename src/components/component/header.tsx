@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 
 export async function Header() {
   const session = await auth();
+  console.log(session);
   return (
     <header className="flex items-center  m-auto justify-between h-16 px-4 bg-white shadow-sm sm:px-6 lg:px-8">
       <Link href="/" className="flex items-center" prefetch={false}>

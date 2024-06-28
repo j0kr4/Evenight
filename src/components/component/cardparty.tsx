@@ -6,11 +6,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Party, PartyType } from "@prisma/client";
 import {
   Calendar,
-  ChevronRight,
-  ChevronRightIcon,
   CircuitBoard,
-  Dice1Icon,
-  Gamepad,
   GamepadIcon,
   MapPin,
   MessageCircle,
@@ -19,17 +15,16 @@ import {
   Ticket,
   User,
   User2,
-  User2Icon,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import cover from "@/../public/coverEvent.jpg";
 import Date from "@/components/date";
 
-export function CardParty({ party }: Party) {
+export function CardParty({ Party }: { Party: Party }) {
   return (
-    <Card key={party.id} className="group w-full max-w-md p-2 ">
-      <Link href={`/party/${party.id}`} key={party.id} className="z-0">
+    <Card key={Party.id} className="group w-full max-w-md p-2 ">
+      <Link href={`/party/${Party.id}`} key={Party.id} className="z-0">
         <Image
           width={450}
           height={200}
@@ -40,38 +35,38 @@ export function CardParty({ party }: Party) {
         <CardHeader className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <CardTitle className="text-2xl group-hover:underline font-bold">
-              {party.name}
+              {Party.name}
             </CardTitle>
             <div className="flex flex-col items-end gap-2">
               <Badge
                 variant="outline"
                 className="rounded-full px-3 py-1 text-sm font-medium"
               >
-                {party.isPaid ? "Payant" : "Gratuit"}
+                {Party.isPaid ? "Payant" : "Gratuit"}
               </Badge>
               <Badge
                 variant="secondary"
                 className="rounded-full px-3 gap-2 py-1 text-sm font-medium"
               >
-                {party.type == PartyType["LAN"] ? (
+                {Party.type == PartyType["LAN"] ? (
                   <GamepadIcon className="h-5 w-5" />
-                ) : party.type == PartyType["BOARD_GAME"] ? (
+                ) : Party.type == PartyType["BOARD_GAME"] ? (
                   <CircuitBoard className="h-5 w-5" />
                 ) : (
                   <PartyPopper className="h-5 w-5" />
                 )}
-                {party.type}
+                {Party.type}
               </Badge>
             </div>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <MapPin className="h-5 w-5" />
-            <span>{party?.adress?.city}</span>
+            <span>{Party?.adress?.city}</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-5 w-5" />
             <span>
-              <Date dateString={party.date} />
+              <Date dateString={Party.date} />
             </span>
           </div>
         </CardHeader>
@@ -80,24 +75,24 @@ export function CardParty({ party }: Party) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-muted-foreground">
               <User2 className="h-5 w-5" />
-              <span>{party.availableSeats} places disponibles</span>
+              <span>{Party.availableSeats} places disponibles</span>
             </div>
-            {party.isPaid ? (
+            {Party.isPaid ? (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Ticket className="h-5 w-5" />
-                <span> {party.price} € </span>
+                <span> {Party.price} € </span>
               </div>
             ) : null}
           </div>
 
           <div className="flex items-center gap-2 text-muted-foreground">
             <User className="h-5 w-5" />
-            <span>Organiser par {party?.organizer?.name} </span>
+            <span>Organiser par {Party?.organizer?.name} </span>
           </div>
 
           <div className="flex items-center gap-2 text-muted-foreground">
             <MessageCircle className="h-5 w-5" />
-            {party?.comments?.length} Comments
+            {Party?.comments?.length} Comments
           </div>
 
           <Collapsible className="z-10">
@@ -112,7 +107,7 @@ export function CardParty({ party }: Party) {
                     <div className="font-medium">John Doe</div>
                     <div className="text-muted-foreground">
                       {
-                        "  Excited for this game night! Can't wait to play some Catan."
+                        "Excited for this game night! Can't wait to play some Catan."
                       }
                     </div>
                   </div>
@@ -125,7 +120,7 @@ export function CardParty({ party }: Party) {
                   <div className="flex flex-col gap-1">
                     <div className="font-medium">Jane Appleseed</div>
                     <div className="text-muted-foreground">
-                      {" I'll bring some snacks and drinks to share!"}
+                      {"I'll bring some snacks and drinks to share!"}
                     </div>
                   </div>
                 </div>
