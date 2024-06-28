@@ -2,8 +2,8 @@ import { LoaderCircle } from "lucide-react";
 import React from "react";
 const Loader = () => {
   return (
-    <div className="animate-spin">
-      <LoaderCircle />
+    <div className="w-full h-full flex justify-center items-center">
+      <LoaderCircle className="animate-spin" />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import client from "../../../lib/redis-client"
 import { z } from "zod";
 
 enum PartyType {
@@ -58,8 +59,24 @@ const PartySchema = z.object({
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = parseInt(url.searchParams.get('pageSize') || '10', 10);
+
+  const cacheKey = `parties:page:${page}:size:${pageSize}`;
+
+  let cachedData = await client.get(cacheKey);
+  if (cachedData) {
+    return new Response(cachedData, { headers: { 'Content-Type': 'application/json' } });
+  }
+
+  const skip = (page - 1) * pageSize;
+  const take = pageSize;
+
   const data = await prisma.party.findMany({
+    skip,
+    take,
     include: {
       organizer: true,
       partyParticipants: true,
@@ -67,6 +84,8 @@ export async function GET() {
       comments: true,
     },
   });
+  await client.set(cacheKey, JSON.stringify(data), 'EX', 3600); // Expiration après 1 heure
+
   return Response.json(data);
 }
 
