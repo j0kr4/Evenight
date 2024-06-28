@@ -1,8 +1,8 @@
 "use client";
-import { CardParty } from "@/components/component/cardparty";
+import ListParty from "@/components/component/listparty";
 import { Button } from "@/components/ui/button";
 
-import { Plus } from "lucide-react";
+import { List, Plus } from "lucide-react";
 import { Hero } from "@/components/component/hero";
 import { useRouter } from "next/navigation";
 
@@ -24,7 +24,7 @@ export default function Home() {
         </Button>
       </div>
       <div className="flex-col py-8 items-center flex">
-        <CardParty />
+        <ListParty />
       </div>
     </main>
   );

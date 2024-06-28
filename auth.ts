@@ -9,12 +9,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       name: "Credentials",
       credentials: {
         email: {
-          label: "Email",
+          label: "Email:",
           type: "text",
           placeholder: "your-cool-email",
         },
         password: {
-          label: "Password",
+          label: "Password:",
           type: "password",
           placeholder: "your-awesome-password",
         },
@@ -31,7 +31,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         )) as User;
 
         if (!user) {
-          return "Invalid email or password";
+          throw new Error("Invalid email or password");
         }
 
         const { id, email, name } =
