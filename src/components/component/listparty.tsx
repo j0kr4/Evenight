@@ -19,7 +19,7 @@ const ListParty = () => {
     <div>
       <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-4">
         {data &&
-          data?.data.map((data: Party) => (
+          data?.data?.map((data: Party) => (
             <CardParty party={data} key={data.id} />
           ))}
       </div>

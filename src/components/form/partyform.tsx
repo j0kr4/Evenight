@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "../ui/button";
 import { PlusIcon, XIcon } from "lucide-react";
 import { Label } from "../ui/label";
@@ -11,11 +12,65 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useState } from "react";
 
 const PartyForm = () => {
+  const [adress, setAdress] = useState("");
+  const [description, setDescription] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [location, setLocation] = useState("");
+  const [price, setPrice] = useState("");
+  const [boardGames, setBoardGames] = useState("");
+  const [videoGames, setVideoGames] = useState("");
+  const [organizer, setOrganizer] = useState("");
+  const [bringSnacks, setBringSnacks] = useState("");
+  const [bringDrinks, setBringDrinks] = useState("");
+  const [bringDrinksAlcool, setBringDrinksAlcool] = useState("");
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [availableSeats, setAvailableSeats] = useState("");
+  const [isPaid, setIsPaid] = useState("");
+  const [place, setPlace] = useState("");
+  const [selectedPerson, setSelectedPerson] = useState("");
+
+  const mutation = useMutation({
+    mutationKey: ["party"],
+    mutationFn: (newTodo) => {
+      return axios.post("/api/party", newTodo);
+    },
+  });
+
+  function onSubmit(e) {
+    e.preventDefault();
+    const partyDetails = {
+      name,
+      type,
+      date,
+      time,
+      description,
+      availableSeats,
+      isPaid,
+      place,
+      price,
+      adress,
+      boardGames,
+      videoGames,
+      organizer,
+      bringSnacks,
+      bringDrinks,
+      bringDrinksAlcool,
+    };
+
+
+    mutation.mutate(partyDetails);
+  }
   return (
     <div className="max-w-4xl m-auto">
-      <form className="grid gap-6 ">
+      <form onSubmit={onSubmit} className="grid gap-6 ">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="name">Event Name</Label>
@@ -23,7 +78,7 @@ const PartyForm = () => {
           </div>
           <div className="space-y-2">
             <Label htmlFor="type">Event Type</Label>
-            <Select id="type">
+            <Select onValueChange={(value) => setType(value)} id="type">
               <SelectTrigger>
                 <SelectValue placeholder="Select event type" />
               </SelectTrigger>
@@ -38,16 +93,29 @@ const PartyForm = () => {
         </div>
         <div className="space-y-2">
           <Label htmlFor="address">Address</Label>
-          <Input id="address" placeholder="Enter event address" />
+          <Input
+            onChange={(e) => setAdress(e.target.value)}
+            id="address"
+            placeholder="Enter event address"
+          />
         </div>
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
-          <Textarea id="description" placeholder="Describe the event" />
+          <Textarea
+            onChange={(e) => setDescription(e.target.value)}
+            id="description"
+            placeholder="Describe the event"
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="capacity">Capacity</Label>
-            <Input id="capacity" type="number" placeholder="Enter capacity" />
+            <Input
+              onChange={(e) => setCapacity(e.target.value)}
+              id="capacity"
+              type="number"
+              placeholder="Enter capacity"
+            />
           </div>
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
@@ -59,11 +127,20 @@ const PartyForm = () => {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="location">Location</Label>
-            <Input id="location" placeholder="Enter location" />
+            <Input
+              onChange={(e) => setLocation(e.target.value)}
+              id="location"
+              placeholder="Enter location"
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="price">Price</Label>
-            <Input id="price" type="number" placeholder="Enter price" />
+            <Input
+              onChange={(e) => setPrice(e.target.value)}
+              id="price"
+              type="number"
+              placeholder="Enter price"
+            />
           </div>
         </div>
         <div className="space-y-2">
@@ -114,7 +191,10 @@ const PartyForm = () => {
         </div>
         <div className="space-y-2">
           <Label htmlFor="organizer">Organizer</Label>
-          <Select id="organizer">
+          <Select
+            onValueChange={(value) => setSelectedPerson(value)}
+            id="organizer"
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select organizer" />
             </SelectTrigger>
@@ -146,7 +226,7 @@ const PartyForm = () => {
           </div>
         </div>
         <Button variant="outline">Cancel</Button>
-        <Button type="submit">Create Event</Button>
+        <Button>Create Event</Button>
       </form>
     </div>
   );

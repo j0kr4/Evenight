@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const id = segments.pop(); 
   const data = await prisma.party.findUnique({
     where: { id: id },
-    include: { organizer: true, partyParticipants: true, adress: true },
+  
   });
   return Response.json(data);
 }

@@ -71,6 +71,7 @@ export async function GET() {
 }
 
 export async function POST(request: any) {
+  console.log("POST party");
   try {
     let validatedData = PartySchema.parse(await request.json());
 
