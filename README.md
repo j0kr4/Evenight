@@ -170,7 +170,11 @@ Redis est utilisé pour la mise en cache en mémoire, améliorant encore les per
 
 Cache des Pages : Stocke les versions mises en cache des pages statiques générées.
 Cache des API Routes : Les réponses des requêtes fréquentes sont mises en cache pour une récupération rapide.
-E
+
+
+## Implémentation de la Pagination
+Pagination dans la Route API
+Pour limiter les données retournées par la route API GET /api/party, nous avons implémenté un système de pagination. Cela permet de diviser les données en plusieurs pages, réduisant ainsi la charge sur le serveur et améliorant les temps de réponse.
 
 
 
