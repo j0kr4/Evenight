@@ -1,9 +1,13 @@
 import { PrismaClient } from "@prisma/client";
+import { NextRequest } from "next/server";
 const prisma = new PrismaClient();
 
-export async function GET(id: string, params: { id: string }) {
+export async function GET(request: NextRequest) {
+  const url = new URL(request.url);
+  const segments = url.pathname.split('/');
+  const id = segments.pop(); 
   const data = await prisma.party.findUnique({
-    where: { id: "fcfb8697-7411-4f2f-bbdd-60723b97c1da" },
+    where: { id: id },
     include: { organizer: true, partyParticipants: true, adress: true },
   });
   return Response.json(data);
