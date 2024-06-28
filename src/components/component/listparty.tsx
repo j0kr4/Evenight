@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import CardParty from "./cardparty";
 import { Party } from "@prisma/client";
 import Loader from "./loader";
@@ -16,7 +17,19 @@ import {
 } from "@/components/ui/pagination";
 
 const ListParty = () => {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
+  
+
+  useEffect(() => {
+    // Ensure the router is ready before attempting to read URL parameters
+    if (router) {
+      const searchParams = new URLSearchParams(location.search);
+      const page = parseInt(searchParams.get("page") || "1", 10);
+      setCurrentPage(page);
+    }
+  }, [router]);
+
   const { isLoading, data } = useQuery<Party[]>({
     queryKey: ["party"],
     queryFn: async () => await axios.get("api/party"),
@@ -42,17 +55,22 @@ const ListParty = () => {
   const handleClick = (event: React.MouseEvent, pageNumber: number) => {
     event.preventDefault();
     setCurrentPage(pageNumber);
+    router.push(`/?page=${pageNumber}`); // Added to update the URL with the current page
   };
   const handleNext = (event: React.MouseEvent) => {
     event.preventDefault();
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage);
+      router.push(`/?page=${nextPage}`); // Added to update the URL with the next page
     }
   };
   const handlePrevious = (event: React.MouseEvent) => {
     event.preventDefault();
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      const prevPage = currentPage - 1;
+      setCurrentPage(prevPage);
+      router.push(`/?page=${prevPage}`); // Added to update the URL with the previous page
     }
   };
 
