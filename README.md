@@ -106,61 +106,80 @@ Votre environnement de développement devrait maintenant être opérationnel. Vo
 
 # route Back
 
-Enregistrement d'un utilisateur:
-POST /api/users
-Corps de la requête: { name: string, email: string, password: string }
 
 Connexion de l'utilisateur:
 POST /api/auth/login
-Corps de la requête: { email: string, password: string }
 
 Déconnexion de l'utilisateur:
 POST /api/auth/logout
 
-Récupération des informations de l'utilisateur:
-GET /api/users/me
-Headers: { Authorization: Bearer <token> }
-Routes Soirée (Party)
-
 Création d'une nouvelle soirée:
-POST /api/parties
-Corps de la requête: { name: string, cityId: number, typeId: number, date: string, time: string, availableSeats: number, isPaid: boolean }
-Headers: { Authorization: Bearer <token> }
+POST /api/party
 
-Récupération des soirées disponibles (avec filtres):
-GET /api/parties
-Paramètres de la requête: { city?: string, type?: string, availableSeats?: number, isPaid?: boolean, date?: string }
 
 Récupération des détails d'une soirée:
-GET /api/parties/[id]
+GET /api/party/[id]
 
-Mise à jour d'une soirée:
-PUT /api/parties/[id]
-Corps de la requête: { name?: string, cityId?: number, typeId?: number, date?: string, time?: string, availableSeats?: number, isPaid?: boolean }
-Headers: { Authorization: Bearer <token> }
 
 Suppression d'une soirée:
-DELETE /api/parties/[id]
+DELETE /api/party/[id]
 Headers: { Authorization: Bearer <token> }
 Routes Message (Message)
 
 Envoyer un message:
-POST /api/messages
-Corps de la requête: { partyId: number, content: string }
-Headers: { Authorization: Bearer <token> }
+POST /api/comments
+
 
 Récupérer les messages d'une soirée:
-GET /api/messages
-Paramètres de la requête: { partyId: number }
-Routes Ville (City) et Type de Soirée (PartyType)
+GET /api/comments
 
-Récupérer la liste des villes:
-GET /api/cities
 
-Récupérer la liste des types de soirées:
-GET /api/partytypes
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+
+
+
+## Gestion du Cache et Base de Données
+Next.js 14 : Gestion Native du Cache
+Next.js 14 gère le cache de manière native en utilisant diverses techniques pour optimiser les performances :
+
+Static Generation (SSG) : Génère des pages statiques au moment de la construction, mises en cache et servies par le CDN.
+Incremental Static Regeneration (ISR) : Régénère les pages statiques de manière incrémentale après le déploiement.
+Cache-Control Headers : Configure les en-têtes de contrôle de cache HTTP pour définir la durée de mise en cache.
+API Routes : Les routes API peuvent bénéficier du cache côté serveur ou par des en-têtes spécifiques.
+Prisma : Gestion de la Base de Données avec des Index
+Prisma est un ORM moderne pour Node.js et TypeScript, facilitant l'interaction avec la base de données :
+
+Schéma Prisma : Définit les modèles de données et les index dans un fichier schema.prisma.
+
+## prisma
+Copier le code
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  posts     Post[]
+  @@index([email], name: "email_index")
+}
+Migration : Génère et applique des migrations pour mettre à jour la structure de la base de données.
+
+Optimisation des Requêtes : Les index améliorent les performances des requêtes en permettant une récupération plus rapide des données.
+
+## Redis : Cache Supplémentaire
+Redis est utilisé pour la mise en cache en mémoire, améliorant encore les performances et la réactivité :
+
+Cache des Pages : Stocke les versions mises en cache des pages statiques générées.
+Cache des API Routes : Les réponses des requêtes fréquentes sont mises en cache pour une récupération rapide.
+E
+
+
+
+
+
+
+
+
+
 
 ## Getting Started
 
