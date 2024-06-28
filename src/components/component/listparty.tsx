@@ -39,7 +39,7 @@ const ListParty = () => {
   }
 
   const itemsPerPage = 3;
-  const totalItems = data?.data.length;
+  const totalItems = data?.data?.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   let startPage = Math.max(currentPage - 2, 0);
   let endPage = Math.min(startPage + 3, totalPages);
@@ -49,7 +49,7 @@ const ListParty = () => {
   }
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data?.data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data?.data?.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleClick = (event: React.MouseEvent, pageNumber: number) => {
     event.preventDefault();

@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import client from "../../../lib/redis-client"
+import client from "../../../lib/redis-client";
 import { z } from "zod";
+import { NextRequest } from "next/server";
 
 enum PartyType {
   LAN = "LAN",
@@ -61,14 +62,16 @@ const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const page = parseInt(url.searchParams.get('page') || '1', 10);
-  const pageSize = parseInt(url.searchParams.get('pageSize') || '10', 10);
+  const page = parseInt(url.searchParams.get("page") || "1", 10);
+  const pageSize = parseInt(url.searchParams.get("pageSize") || "10", 10);
 
   const cacheKey = `parties:page:${page}:size:${pageSize}`;
 
   let cachedData = await client.get(cacheKey);
   if (cachedData) {
-    return new Response(cachedData, { headers: { 'Content-Type': 'application/json' } });
+    return new Response(cachedData, {
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   const skip = (page - 1) * pageSize;
@@ -84,7 +87,7 @@ export async function GET(request: Request) {
       comments: true,
     },
   });
-  await client.set(cacheKey, JSON.stringify(data), 'EX', 3600); // Expiration après 1 heure
+  await client.set(cacheKey, JSON.stringify(data), "EX", 3600); // Expiration après 1 heure
 
   return Response.json(data);
 }
@@ -146,5 +149,52 @@ export async function POST(request: any) {
         "Content-Type": "application/json",
       },
     });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const partyId = searchParams.get("partyId");
+
+  if (!partyId) {
+    return new Response("Party ID is required", { status: 400 });
+  }
+
+  try {
+    await prisma.$transaction(async (prisma) => {
+      await prisma.boardGame.deleteMany({
+        where: { partyId: partyId },
+      });
+      await prisma.videoGame.deleteMany({
+        where: { partyId: partyId },
+      });
+
+      await prisma.comment.deleteMany({
+        where: { partyId: partyId },
+      });
+
+      await prisma.partyParticipant.deleteMany({
+        where: { partyId: partyId },
+      });
+
+      await prisma.party.delete({
+        where: { id: partyId },
+      });
+    });
+
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    console.error("Failed to delete party:", error);
+    return new Response(
+      JSON.stringify({
+        error: "Failed to delete party due to internal server error",
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 }

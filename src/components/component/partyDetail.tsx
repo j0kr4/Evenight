@@ -2,16 +2,26 @@
 import Link from "next/link";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { CommentForm } from "./CommentForm";
-import { LocateIcon, UserIcon } from "lucide-react";
+import { Delete, LocateIcon, Trash2, UserIcon } from "lucide-react";
 import Loader from "./loader";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
 
 export async function PartyDetail({ id, user }: { id: string; user: any }) {
+  const router = useRouter();
   const fetchParty = async () => {
     const res = await axios.get(`http://localhost:3000/api/party/${id}`);
     return res.data;
   };
+
+  const mutation = useMutation({
+    mutationKey: ["party"],
+    mutationFn: () => {
+      return axios.delete("/api/party?partyId=" + id);
+    },
+  });
   const { data, isLoading } = useQuery({
     queryKey: ["party"],
     queryFn: fetchParty,
@@ -21,8 +31,18 @@ export async function PartyDetail({ id, user }: { id: string; user: any }) {
     return <Loader />;
   }
 
+  const deleteData = () => {
+    mutation.mutate();
+  };
+
   return (
     <div className=" mx-auto p-4 sm:p-6 md:p-8">
+      <div>
+        <Button onClick={deleteData} variant="destructive">
+          <Trash2 className="mr-2 h-4 w-4" /> Supprimer cette fete
+        </Button>
+      </div>
+
       <header className="bg-background rounded-lg border p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="grid gap-2">
           <h1 className="text-2xl font-bold">{data.name}</h1>
