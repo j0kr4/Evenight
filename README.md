@@ -1,11 +1,108 @@
-# Prisma
+Guide d'Installation
 
-# Next auth
-- npx auth secret
-  
-# React hook form,
+Ce guide vous aidera à configurer votre environnement de développement, y compris l'installation des logiciels nécessaires et la configuration du dépôt de projet.
+Étape 1 : Installer Node.js
 
-# shadcn
+Node.js est un environnement d'exécution JavaScript basé sur le moteur JavaScript V8 de Chrome. Suivez les instructions ci-dessous pour l'installer :
+
+    Allez sur le site officiel de Node.js.
+    Téléchargez la version LTS (recommandée pour la plupart des utilisateurs).
+    Exécutez l'installateur et suivez les instructions à l'écran pour terminer l'installation.
+
+    Vérifiez l'installation en ouvrant un terminal et en exécutant la commande suivante :
+    node -v
+
+    Vous devriez voir le numéro de version de Node.js.
+
+Étape 2 : Installer Docker et le lancer
+
+Docker est une plateforme permettant de développer, expédier et exécuter des applications dans des conteneurs. Suivez ces étapes pour installer et démarrer Docker :
+
+    Allez sur le site officiel de Docker.
+    Téléchargez l'installateur Docker Desktop pour votre système d'exploitation.
+    Exécutez l'installateur et suivez les instructions à l'écran.
+    Une fois installé, ouvrez Docker Desktop pour démarrer Docker.
+
+    Vérifiez l'installation en ouvrant un terminal et en exécutant la commande suivante :
+
+    docker --version
+
+    Vous devriez voir le numéro de version de Docker.
+
+Étape 3 : Cloner le dépôt Git
+
+Ensuite, clonez le dépôt où votre code de projet est hébergé : https://github.com/j0kr4/Evenight
+
+    Ouvrez un terminal.
+    Exécutez la commande suivante en remplaçant <repository-url> par l'URL de votre dépôt Git :
+
+git clone https://github.com/j0kr4/Evenight
+
+Accédez au répertoire cloné :
+
+    cd Evenight
+
+Étape 4 : Installer les dépendances du projet
+
+Une fois le dépôt cloné, vous devez installer les dépendances du projet en utilisant npm :
+
+    Dans le terminal, assurez-vous d'être dans le répertoire du projet.
+    Exécutez la commande suivante pour installer les dépendances :
+
+
+    npm install
+
+Étape 5 : Exécuter Redis avec Docker
+
+Lancez une instance Redis en utilisant Docker :
+
+    Dans le terminal, exécutez la commande suivante pour démarrer Redis :
+
+
+    docker run -p 6379:6379 -it redis/redis-stack-server:latest
+
+Étape 6 : Modifier le fichier .env.example
+
+Configurez les variables d'environnement nécessaires en modifiant le fichier .env.example :
+
+    Générez un secret d'authentification :
+
+        npx auth secret
+
+Copiez le secret généré et mettez-le dans AUTH_SECRET du fichier .env.example.
+
+Mettez l'URL de votre base de données dans DATABASE_URL du fichier .env.example.
+
+Renommez le fichier .env.example en .env :
+
+    mv .env.example .env
+
+Étape 7 : Générer et pousser le schéma de la base de données
+
+Utilisez Prisma pour générer et pousser le schéma de votre base de données :
+
+    Dans le terminal, exécutez la commande suivante :
+
+        npx prisma db push
+
+Étape 8 : Générer les seeds pour avoir des données
+
+Générez les seeds pour avoir des données de base dans votre base de données :
+
+    Dans le terminal, exécutez la commande suivante :
+
+        npx prisma db seed
+
+Étape 9 : Démarrer le serveur de développement
+
+Avec tout configuré, vous pouvez maintenant démarrer le serveur de développement :
+
+    Dans le terminal, assurez-vous d'être dans le répertoire du projet.
+    Exécutez la commande suivante pour démarrer le serveur de développement :
+
+        npm run dev
+
+Votre environnement de développement devrait maintenant être opérationnel. Vous pouvez accéder à votre application comme spécifié dans la configuration de votre projet. Si vous rencontrez des problèmes, consultez la documentation du projet ou demandez de l'aide à votre équipe.
 
 # route Back
 
