@@ -4,11 +4,11 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 const CommentSchema = z.object({
-  content: z.string(),
-  rating: z.number(),
-  fromUserId: z.string(),
-  toUserId: z.string(),
-  partyId: z.string(),
+  content: z.string().optional(),
+  rating: z.number().optional(),
+  fromUserId: z.string().optional(),
+  toUserId: z.string().optional(),
+  partyId: z.string().optional(),
 });
 
 export async function POST(request: any) {
@@ -18,6 +18,7 @@ export async function POST(request: any) {
     const createdComment = await prisma.comment.create({
       data: validatedData,
     });
+
 
     return new Response(JSON.stringify(createdComment), {
       status: 200,
@@ -40,7 +41,7 @@ export async function GET(request: any) {
   try {
     const comments = await prisma.comment.findMany({
       where: {
-        partyId: request.params.id,
+        partyId: request.nextUrl.searchParams.get('partyId'),
       },
       include: {
         userFrom: true,
