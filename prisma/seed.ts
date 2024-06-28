@@ -54,11 +54,11 @@ async function main() {
 
   // Generate Parties
   const parties = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     const party = await prisma.party.create({
       data: {
         name: faker.lorem.words(3),
-        type: faker.helpers.arrayElement(["LAN", "BOARD_GAME"]),
+        type: faker.helpers.arrayElement(["LAN", "BOARD_GAME", "PARTY"]),
         date: faker.date.future(),
         time: faker.date.future(),
         adressId: faker.helpers.arrayElement(addresses).id,

@@ -23,7 +23,7 @@ const PartyForm = () => {
           </div>
           <div className="space-y-2">
             <Label htmlFor="type">Event Type</Label>
-            <Select id="type">
+            <Select>
               <SelectTrigger>
                 <SelectValue placeholder="Select event type" />
               </SelectTrigger>
