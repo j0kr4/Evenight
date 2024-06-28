@@ -21,7 +21,6 @@ const ListParty = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    // Ensure the router is ready before attempting to read URL parameters
     if (router) {
       const searchParams = new URLSearchParams(location.search);
       const page = parseInt(searchParams.get("page") || "1", 10);
@@ -38,7 +37,7 @@ const ListParty = () => {
     return <Loader />;
   }
 
-  const itemsPerPage = 3;
+  const itemsPerPage = 6;
   const totalItems = data?.data?.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   let startPage = Math.max(currentPage - 2, 0);
@@ -76,11 +75,11 @@ const ListParty = () => {
   return (
     <div>
       <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentItems.map((data: Party) => (
-          <CardParty party={data} key={data.id} />
+        {currentItems?.map((data: Party) => (
+          <CardParty Party={data} key={data.id} />
         ))}
       </div>
-      <Pagination className="mb-3 mt-3">
+      <Pagination className="my-12">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious href="#" onClick={handlePrevious} />

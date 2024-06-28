@@ -1,9 +1,8 @@
-import { PrismaClient } from '@prisma/client';
-import { z } from 'zod';
+import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-// Définir le schéma de validation pour un commentaire
 const CommentSchema = z.object({
   content: z.string().optional(),
   rating: z.number().optional(),
@@ -38,7 +37,6 @@ export async function POST(request: any) {
   }
 }
 
-
 export async function GET(request: any) {
   try {
     const comments = await prisma.comment.findMany({
@@ -49,7 +47,7 @@ export async function GET(request: any) {
         userFrom: true,
         userTo: true,
         party: true,
-      }
+      },
     });
 
     return new Response(JSON.stringify(comments), {

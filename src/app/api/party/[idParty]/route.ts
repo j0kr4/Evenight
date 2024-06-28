@@ -21,3 +21,16 @@ export async function GET(request: NextRequest) {
   });
   return Response.json(data);
 }
+
+export async function DELETE(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const idQuery = searchParams.get("id");
+  const idUser = searchParams.get("idUser");
+  const data = await prisma.party.findUnique({
+    where: {
+      id: idQuery,
+      organizerId: idUser,
+    },
+  });
+  return Response.json(data);
+}
