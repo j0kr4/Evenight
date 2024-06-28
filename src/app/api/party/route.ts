@@ -58,8 +58,17 @@ const PartySchema = z.object({
 
 const prisma = new PrismaClient();
 
-export async function GET() {
+export async function GET(request: Request) {
+  const url = new URL(request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = parseInt(url.searchParams.get('pageSize') || '10', 10);
+
+  const skip = (page - 1) * pageSize;
+  const take = pageSize;
+
   const data = await prisma.party.findMany({
+    skip,
+    take,
     include: {
       organizer: true,
       partyParticipants: true,
